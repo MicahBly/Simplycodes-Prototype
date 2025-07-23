@@ -1,5 +1,6 @@
 import { MockDataService } from '@simplycodes/shared-mock-data';
 import { ExtensionMessage } from '@simplycodes/types';
+import './content.css';
 
 class ContentScript {
   private sidebarIframe?: HTMLIFrameElement;

@@ -124,6 +124,13 @@ pnpm clean
 - Use React.memo for expensive components
 - Lazy load models based on user interaction
 
+## Important Build Notes
+
+- **CRITICAL**: The content script at `packages/extension/src/content/index.ts` MUST import `'./content.css'` to generate the required `content.css` file in the build output
+- The Chrome extension manifest references `content.css` and will fail to load if this file is missing
+- After any changes to content script styling, always run `pnpm build` to ensure `content.css` is regenerated
+- The build process uses two separate Vite configs: main build and content build
+
 ## Debugging Tips
 
 ```javascript
@@ -136,3 +143,11 @@ navigator.gpu?.requestAdapter()
 // Inspect service worker
 chrome://extensions → Inspect views: service worker
 ```
+
+## Common Build Issues
+
+### "Could not load css 'content.css'" Error
+This happens when the content script doesn't import the CSS file. The fix:
+1. Ensure `packages/extension/src/content/index.ts` has `import './content.css';`
+2. Run `pnpm build` to regenerate the CSS file
+3. The `content.css` file should appear in `packages/extension/dist/`
