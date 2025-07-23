@@ -56,17 +56,17 @@ export function ChatInterface({
       <div className="flex-1 overflow-auto p-4">
         {messages.length === 0 ? (
           <div className="text-center py-8">
-            <div className="text-gray-400 mb-4">
+            <div className="text-white/50 mb-4">
               <svg className="w-12 h-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                   d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" 
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium text-white mb-2">
               AI Shopping Assistant
             </h3>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-white/70 mb-6">
               Ask me about products, deals, or shopping advice!
             </p>
             
@@ -77,8 +77,8 @@ export function ChatInterface({
                   key={idx}
                   onClick={() => !disabled && onSendMessage(question)}
                   className="block w-full text-left px-4 py-2 text-sm 
-                           bg-gray-100 hover:bg-gray-200 rounded-lg 
-                           transition-colors"
+                           bg-sc-card hover:bg-sc-gray-800 rounded-lg 
+                           transition-colors text-white/80 hover:text-white"
                   disabled={disabled}
                 >
                   {question}
@@ -124,11 +124,11 @@ export function ChatInterface({
               <div className="flex justify-start">
                 <div className="chat-bubble chat-bubble-assistant">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" 
+                    <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce" 
                          style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" 
+                    <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce" 
                          style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" 
+                    <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce" 
                          style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </div>
@@ -151,10 +151,10 @@ export function ChatInterface({
             placeholder={disabled ? "AI model loading..." : "Ask about deals, products, or shopping..."}
             disabled={disabled || isLoading}
             rows={1}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg 
-                     focus:outline-none focus:ring-2 focus:ring-primary-500 
-                     focus:border-transparent resize-none disabled:bg-gray-100
-                     disabled:text-gray-500"
+            className="flex-1 px-3 py-2 border border-sc-gray-700 bg-sc-card text-white rounded-lg 
+                     focus:outline-none focus:ring-2 focus:ring-sc-green 
+                     focus:border-transparent resize-none disabled:bg-sc-gray-800
+                     disabled:text-white/40 placeholder-white/50"
           />
           <button
             type="submit"

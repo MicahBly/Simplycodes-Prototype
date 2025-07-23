@@ -110,16 +110,25 @@ export function SidebarApp() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-sc-darker rounded-2xl overflow-hidden shadow-2xl">
       {/* Header */}
-      <header className="bg-primary-600 text-white px-4 py-3 flex items-center justify-between">
+      <header className="bg-sc-dark text-white px-4 py-3 flex items-center justify-between rounded-t-2xl">
         <div className="flex items-center gap-3">
-          <h1 className="text-lg font-semibold">SimplyCodes Assistant</h1>
+          {/* SimplyCodes Logo */}
+          <div className="w-10 h-10 bg-sc-green rounded-lg flex items-center justify-center shadow-lg">
+            <span className="text-sc-dark font-black text-2xl">S</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-semibold">SimplyCodes</h1>
+            <span className="px-2 py-1 bg-purple-600 text-white text-xs font-bold rounded">
+              PROTOTYPE
+            </span>
+          </div>
           <ModelStatus status={pageData?.modelStatus || 'loading'} light />
         </div>
         <button
           onClick={handleClose}
-          className="p-1 hover:bg-primary-700 rounded transition-colors"
+          className="p-1 hover:bg-sc-gray-800 rounded transition-colors"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -128,12 +137,12 @@ export function SidebarApp() {
       </header>
 
       {/* Tab Navigation */}
-      <div className="flex border-b">
+      <div className="flex border-b border-sc-gray-800 bg-sc-dark">
         <button
           className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
             activeTab === 'coupons'
-              ? 'text-primary-600 border-b-2 border-primary-600'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'text-sc-green border-b-2 border-sc-green'
+              : 'text-white/70 hover:text-white'
           }`}
           onClick={() => setActiveTab('coupons')}
         >
@@ -142,8 +151,8 @@ export function SidebarApp() {
         <button
           className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
             activeTab === 'chat'
-              ? 'text-primary-600 border-b-2 border-primary-600'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'text-sc-green border-b-2 border-sc-green'
+              : 'text-white/70 hover:text-white'
           }`}
           onClick={() => setActiveTab('chat')}
         >
@@ -152,20 +161,20 @@ export function SidebarApp() {
       </div>
 
       {/* Content */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden bg-sc-darker">
         {activeTab === 'coupons' ? (
           <div className="h-full flex flex-col">
             {pageData?.cartTotal && (
-              <div className="px-4 py-3 bg-gray-50 border-b">
+              <div className="px-4 py-3 bg-sc-card border-b border-sc-gray-800">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Cart Total:</span>
-                  <span className="font-semibold">${pageData.cartTotal.toFixed(2)}</span>
+                  <span className="text-sm text-white/70">Cart Total:</span>
+                  <span className="font-semibold text-white">${pageData.cartTotal.toFixed(2)}</span>
                 </div>
               </div>
             )}
             <div className="flex-1 overflow-auto">
               {pageData?.coupons.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
+                <div className="p-8 text-center text-white/70">
                   No coupons available for this site
                 </div>
               ) : (
@@ -187,7 +196,7 @@ export function SidebarApp() {
       </main>
 
       {/* Footer */}
-      <footer className="px-4 py-2 bg-gray-50 border-t text-xs text-gray-500 text-center">
+      <footer className="px-4 py-2 bg-sc-dark border-t border-sc-gray-800 text-xs text-white/50 text-center rounded-b-2xl">
         Privacy-first AI • All processing happens locally
       </footer>
     </div>
