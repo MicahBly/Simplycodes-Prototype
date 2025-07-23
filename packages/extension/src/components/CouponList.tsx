@@ -34,29 +34,29 @@ export function CouponList({ coupons, onApply }: CouponListProps) {
   };
 
   return (
-    <div className="divide-y divide-gray-200">
+    <div className="divide-y divide-sc-gray-800">
       {coupons.map((coupon, index) => (
         <div
           key={coupon.id}
           className={clsx(
-            'p-4 hover:bg-gray-50 transition-colors',
-            index === 0 && isRanked(coupon) && 'bg-primary-50 hover:bg-primary-100'
+            'p-4 hover:bg-sc-gray-800 transition-colors',
+            index === 0 && isRanked(coupon) && 'bg-sc-card hover:bg-sc-gray-700'
           )}
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-mono text-sm font-semibold">
+                <span className="font-mono text-sm font-semibold text-white">
                   {coupon.code}
                 </span>
                 {index === 0 && isRanked(coupon) && (
-                  <span className="text-xs bg-primary-600 text-white px-2 py-0.5 rounded-full">
+                  <span className="text-xs bg-sc-green text-sc-dark px-2 py-0.5 rounded-full font-bold">
                     BEST DEAL
                   </span>
                 )}
               </div>
               
-              <p className="text-sm text-gray-600 mb-2">
+              <p className="text-sm text-white/70 mb-2">
                 {coupon.description}
               </p>
               
@@ -68,12 +68,12 @@ export function CouponList({ coupons, onApply }: CouponListProps) {
                   {Math.round(coupon.success_rate * 100)}% success
                 </span>
                 
-                <span className="text-gray-500">
+                <span className="text-white/60">
                   {getDiscountDisplay(coupon)}
                 </span>
                 
                 {coupon.minimum_purchase && (
-                  <span className="text-gray-500">
+                  <span className="text-white/60">
                     Min: ${coupon.minimum_purchase}
                   </span>
                 )}

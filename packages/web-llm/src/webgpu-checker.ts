@@ -1,8 +1,6 @@
-/// <reference path="./webgpu.d.ts" />
-
 export class WebGPUChecker {
   static async isAvailable(): Promise<boolean> {
-    if (!('gpu' in navigator) || !navigator.gpu) {
+    if (!('gpu' in navigator)) {
       return false;
     }
 
@@ -27,7 +25,7 @@ export class WebGPUChecker {
     device: string;
     description: string;
   } | null> {
-    if (!('gpu' in navigator) || !navigator.gpu) {
+    if (!('gpu' in navigator)) {
       return null;
     }
 
@@ -50,7 +48,7 @@ export class WebGPUChecker {
   }
 
   static async getMemoryInfo(): Promise<number | null> {
-    if (!('gpu' in navigator) || !navigator.gpu) {
+    if (!('gpu' in navigator)) {
       return null;
     }
 

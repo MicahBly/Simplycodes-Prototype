@@ -8,8 +8,7 @@
     "rootDir": "./",
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "noEmit": false
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*", "data/**/*.json"],
   "exclude": ["node_modules", "dist"],

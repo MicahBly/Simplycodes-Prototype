@@ -7,8 +7,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
-    "lib": ["ES2022", "DOM", "WebWorker"],
-    "noEmit": false
+    "lib": ["ES2022", "DOM", "WebWorker"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"],
