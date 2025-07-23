@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@simplycodes/types": ["packages/types/src/index.ts"],
+      "@simplycodes/web-llm": ["packages/web-llm/src/index.ts"],
+      "@simplycodes/shared-mock-data": ["packages/shared-mock-data/src/index.ts"]
+    }
+  },
+  "references": [
+    { "path": "./packages/types" },
+    { "path": "./packages/web-llm" },
+    { "path": "./packages/shared-mock-data" },
+    { "path": "./packages/extension" }
+  ]
+}

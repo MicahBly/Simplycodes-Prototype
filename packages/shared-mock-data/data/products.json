@@ -1,0 +1,108 @@
+[
+  {
+    "id": "prod_001",
+    "name": "Wireless Noise-Canceling Headphones",
+    "price": 249.99,
+    "original_price": 299.99,
+    "rating": 4.5,
+    "review_count": 1250,
+    "categories": ["electronics", "audio", "headphones"],
+    "merchant_id": "amazon",
+    "description": "Premium over-ear headphones with active noise cancellation"
+  },
+  {
+    "id": "prod_002",
+    "name": "Smart 4K TV - 55 inch",
+    "price": 599.99,
+    "original_price": 799.99,
+    "rating": 4.3,
+    "review_count": 890,
+    "categories": ["electronics", "tv", "smart-home"],
+    "merchant_id": "bestbuy",
+    "description": "Ultra HD Smart TV with HDR and streaming apps"
+  },
+  {
+    "id": "prod_003",
+    "name": "Instant Pot Duo 7-in-1",
+    "price": 79.99,
+    "rating": 4.6,
+    "review_count": 5430,
+    "categories": ["kitchen", "appliances", "cooking"],
+    "merchant_id": "amazon",
+    "description": "Multi-use programmable pressure cooker"
+  },
+  {
+    "id": "prod_004",
+    "name": "Cordless Drill Set",
+    "price": 129.99,
+    "original_price": 169.99,
+    "rating": 4.4,
+    "review_count": 720,
+    "categories": ["tools", "power-tools", "hardware"],
+    "merchant_id": "homedepot",
+    "description": "20V MAX Cordless Drill with 2 batteries and charger"
+  },
+  {
+    "id": "prod_005",
+    "name": "Yoga Mat - Extra Thick",
+    "price": 29.99,
+    "rating": 4.7,
+    "review_count": 2100,
+    "categories": ["sports", "fitness", "yoga"],
+    "merchant_id": "target",
+    "description": "Non-slip exercise mat with carrying strap"
+  },
+  {
+    "id": "prod_006",
+    "name": "Coffee Maker with Grinder",
+    "price": 149.99,
+    "original_price": 199.99,
+    "rating": 4.2,
+    "review_count": 450,
+    "categories": ["kitchen", "appliances", "coffee"],
+    "merchant_id": "walmart",
+    "description": "Automatic coffee maker with built-in burr grinder"
+  },
+  {
+    "id": "prod_007",
+    "name": "Gaming Laptop - RTX 4060",
+    "price": 1299.99,
+    "original_price": 1499.99,
+    "rating": 4.5,
+    "review_count": 320,
+    "categories": ["electronics", "computers", "gaming"],
+    "merchant_id": "bestbuy",
+    "description": "High-performance gaming laptop with RTX graphics"
+  },
+  {
+    "id": "prod_008",
+    "name": "Air Fryer - 6 Quart",
+    "price": 89.99,
+    "rating": 4.4,
+    "review_count": 1890,
+    "categories": ["kitchen", "appliances", "cooking"],
+    "merchant_id": "target",
+    "description": "Digital air fryer with 8 preset cooking programs"
+  },
+  {
+    "id": "prod_009",
+    "name": "Security Camera System",
+    "price": 299.99,
+    "original_price": 399.99,
+    "rating": 4.3,
+    "review_count": 560,
+    "categories": ["electronics", "security", "smart-home"],
+    "merchant_id": "amazon",
+    "description": "4-camera wireless security system with night vision"
+  },
+  {
+    "id": "prod_010",
+    "name": "Electric Lawn Mower",
+    "price": 249.99,
+    "rating": 4.1,
+    "review_count": 410,
+    "categories": ["outdoor", "lawn-care", "tools"],
+    "merchant_id": "lowes",
+    "description": "Cordless electric lawn mower with 21-inch cutting deck"
+  }
+]

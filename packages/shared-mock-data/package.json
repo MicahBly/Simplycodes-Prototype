@@ -1,0 +1,28 @@
+{
+  "name": "@simplycodes/shared-mock-data",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "data"],
+  "scripts": {
+    "build": "tsc && cp -r ./data ./dist/",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@simplycodes/types": "workspace:*",
+    "fuse.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
