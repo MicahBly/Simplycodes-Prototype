@@ -17,8 +17,7 @@
     "react-dom": "^18.2.0",
     "clsx": "^2.1.0",
     "zustand": "^4.5.0",
-    "fuse.js": "^7.0.0",
-    "onnxruntime-web": "^1.17.0"
+    "fuse.js": "^7.0.0"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.258",

@@ -295,6 +295,11 @@ class ContentScript {
 
   private async handleIframeMessage(message: any) {
     switch (message.type) {
+      case 'REQUEST_PAGE_DATA':
+        // Resend page data when requested
+        this.sendPageData();
+        break;
+        
       case 'APPLY_COUPON':
         const response = await this.sendToBackground({
           type: 'APPLY_COUPON',
@@ -330,7 +335,19 @@ class ContentScript {
 
   private sendToBackground(message: ExtensionMessage): Promise<any> {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage(message, resolve);
+      try {
+        chrome.runtime.sendMessage(message, (response) => {
+          if (chrome.runtime.lastError) {
+            console.error('Chrome runtime error:', chrome.runtime.lastError);
+            resolve({ success: false, error: chrome.runtime.lastError.message });
+          } else {
+            resolve(response);
+          }
+        });
+      } catch (error) {
+        console.error('Failed to send message:', error);
+        resolve({ success: false, error: 'Extension not ready' });
+      }
     });
   }
 

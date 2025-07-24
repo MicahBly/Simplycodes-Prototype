@@ -3,8 +3,11 @@ import { Coupon, RankedCoupon, ChatMessage } from '@/types';
 import { CouponList } from '../components/CouponList';
 import { ChatInterface } from '../components/ChatInterface';
 import { ModelStatus } from '../components/ModelStatus';
+import { AIService } from './ai-service';
 
 type TabType = 'coupons' | 'chat';
+
+const aiService = AIService.getInstance();
 
 interface PageData {
   url: string;
@@ -21,19 +24,55 @@ export function SidebarApp() {
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [modelStatus, setModelStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
   useEffect(() => {
+    // Initialize AI
+    aiService.initialize()
+      .then(() => setModelStatus('ready'))
+      .catch((error) => {
+        console.error('AI initialization failed:', error);
+        setModelStatus('error');
+      });
+    
     // Listen for messages from content script
     window.addEventListener('message', handleMessage);
+    
+    // Request initial data
+    window.parent.postMessage({ type: 'REQUEST_PAGE_DATA' }, '*');
+    
     return () => window.removeEventListener('message', handleMessage);
-  }, [messages]);
+  }, []);
 
   const handleMessage = (event: MessageEvent) => {
     if (event.source !== window.parent) return;
 
     switch (event.data.type) {
       case 'PAGE_DATA':
-        setPageData(event.data.payload);
+        const data = event.data.payload;
+        // Rank coupons locally if we have a cart total
+        if (data.cartTotal && data.coupons.length > 0) {
+          aiService.rankCoupons(data.coupons, data.cartTotal)
+            .then(rankedCoupons => {
+              setPageData({
+                ...data,
+                coupons: rankedCoupons,
+                modelStatus: modelStatus,
+              });
+            })
+            .catch(error => {
+              console.error('Failed to rank coupons:', error);
+              setPageData({
+                ...data,
+                modelStatus: modelStatus,
+              });
+            });
+        } else {
+          setPageData({
+            ...data,
+            modelStatus: modelStatus,
+          });
+        }
         break;
       case 'MODEL_STATUS':
         if (pageData) {
@@ -51,16 +90,7 @@ export function SidebarApp() {
         }
         break;
       case 'CHAT_RESPONSE':
-        if (event.data.payload.success) {
-          const assistantMessage: ChatMessage = {
-            id: Date.now().toString(),
-            role: 'assistant',
-            content: event.data.payload.data.response,
-            timestamp: Date.now(),
-          };
-          setMessages(prev => [...prev, assistantMessage]);
-        }
-        setIsLoading(false);
+        // We'll handle chat locally now
         break;
     }
   };
@@ -72,7 +102,7 @@ export function SidebarApp() {
     }, '*');
   };
 
-  const handleSendMessage = (content: string) => {
+  const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
@@ -83,12 +113,24 @@ export function SidebarApp() {
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
 
-    window.parent.postMessage({
-      type: 'SEND_CHAT',
-      payload: {
-        messages: [...messages, userMessage],
-      },
-    }, '*');
+    try {
+      // Process chat locally with AI
+      const response = await aiService.processChat([...messages, userMessage]);
+      
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: response,
+        timestamp: Date.now(),
+      };
+      
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Chat processing failed:', error);
+      showNotification('Failed to process message', 'error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -124,7 +166,7 @@ export function SidebarApp() {
               PROTOTYPE
             </span>
           </div>
-          <ModelStatus status={pageData?.modelStatus || 'loading'} light />
+          <ModelStatus status={modelStatus} light />
         </div>
         <button
           onClick={handleClose}
@@ -190,7 +232,7 @@ export function SidebarApp() {
             messages={messages}
             onSendMessage={handleSendMessage}
             isLoading={isLoading}
-            disabled={pageData?.modelStatus !== 'ready'}
+            disabled={modelStatus !== 'ready'}
           />
         )}
       </main>

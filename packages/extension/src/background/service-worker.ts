@@ -1,6 +1,11 @@
 import { ModelLoader, LLMInference, CouponRanker } from '@/ml';
+import { MockLLMInference, MockCouponRanker, MockModelLoader } from '@/ml/mock-inference';
+import { OnnxLLMInference, OnnxCouponRanker } from '@/ml/onnx-inference';
 import { MockDataService } from '@/services/mock-data-service';
 import { ExtensionMessage, ModelConfig, ChatMessage } from '@/types';
+
+// Use mock implementations for prototype
+const USE_MOCK_ML = true; // Service Workers can't use dynamic imports required by ONNX Runtime
 
 // Model configurations
 const MODELS: Record<string, ModelConfig> = {
@@ -23,16 +28,23 @@ const MODELS: Record<string, ModelConfig> = {
 
 // Service worker state
 class ServiceWorkerState {
-  private modelLoader: ModelLoader;
-  private llmInference: LLMInference;
-  private couponRanker: CouponRanker;
+  private modelLoader: ModelLoader | MockModelLoader;
+  private llmInference: LLMInference | MockLLMInference | OnnxLLMInference;
+  private couponRanker: CouponRanker | MockCouponRanker | OnnxCouponRanker;
   private modelsLoaded = false;
   private loadingPromise?: Promise<void>;
 
   constructor() {
-    this.modelLoader = ModelLoader.getInstance();
-    this.llmInference = new LLMInference();
-    this.couponRanker = new CouponRanker();
+    if (USE_MOCK_ML) {
+      this.modelLoader = MockModelLoader.getInstance();
+      this.llmInference = new MockLLMInference();
+      this.couponRanker = new MockCouponRanker();
+    } else {
+      // Use ONNX implementations
+      this.modelLoader = MockModelLoader.getInstance(); // Still use mock loader for simplicity
+      this.llmInference = new OnnxLLMInference();
+      this.couponRanker = new OnnxCouponRanker();
+    }
   }
 
   async ensureModelsLoaded(): Promise<void> {
@@ -47,17 +59,29 @@ class ServiceWorkerState {
     try {
       console.log('Starting model loading...');
       
-      // Load models with progress reporting
-      const loadPromises = [
-        this.modelLoader.loadModel(MODELS.llm, (progress) => {
-          this.broadcastProgress('llm', progress);
-        }),
-        this.modelLoader.loadModel(MODELS.ranker, (progress) => {
-          this.broadcastProgress('ranker', progress);
-        }),
-      ];
+      if (USE_MOCK_ML) {
+        // Mock loading with progress
+        const loadPromises = [
+          this.modelLoader.loadModel(MODELS.llm, (progress) => {
+            this.broadcastProgress('llm', progress);
+          }),
+          this.modelLoader.loadModel(MODELS.ranker, (progress) => {
+            this.broadcastProgress('ranker', progress);
+          }),
+        ];
 
-      await Promise.all(loadPromises);
+        await Promise.all(loadPromises);
+      } else {
+        // For ONNX, we'll simulate progress while loading from CDN
+        this.broadcastProgress('llm', { percentage: 10 });
+        
+        // Initialize ONNX models (they'll load from Hugging Face CDN)
+        if (this.llmInference instanceof OnnxLLMInference) {
+          await this.llmInference.loadModel('');
+        }
+        
+        this.broadcastProgress('llm', { percentage: 90 });
+      }
 
       // Initialize inference engines
       await this.llmInference.initialize(MODELS.llm.name);
@@ -180,7 +204,7 @@ class ServiceWorkerState {
     // Create a promise that will be resolved with the complete response
     let completeResponse = '';
     
-    const response = await this.llmInference.generate(
+    await this.llmInference.generate(
       payload.messages,
       {
         maxTokens: 150,
@@ -253,7 +277,13 @@ chrome.runtime.onInstalled.addListener(() => {
       couponsApplied: 0,
     },
   });
+  
+  // Start loading models immediately
+  state.ensureModelsLoaded().catch(console.error);
 });
+
+// Also load models on startup
+state.ensureModelsLoaded().catch(console.error);
 
 // Handle messages from content scripts and popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
