@@ -13,9 +13,9 @@ export function CouponList({ coupons, onApply }: CouponListProps) {
   };
 
   const getSuccessColor = (rate: number) => {
-    if (rate >= 0.8) return 'text-green-600 bg-green-50';
-    if (rate >= 0.6) return 'text-yellow-600 bg-yellow-50';
-    return 'text-red-600 bg-red-50';
+    if (rate >= 0.8) return 'text-green-400 bg-green-900/20';
+    if (rate >= 0.6) return 'text-yellow-400 bg-yellow-900/20';
+    return 'text-red-400 bg-red-900/20';
   };
 
   const getDiscountDisplay = (coupon: Coupon) => {

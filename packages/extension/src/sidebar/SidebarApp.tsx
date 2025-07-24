@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Coupon, RankedCoupon, ChatMessage } from '@/types';
+import { Coupon, RankedCoupon, ChatMessage, Achievement, AIRecommendation } from '@/types';
 import { CouponList } from '../components/CouponList';
 import { ChatInterface } from '../components/ChatInterface';
 import { ModelStatus } from '../components/ModelStatus';
+import { Dashboard } from '../components/Dashboard';
+import { AIRecommendations } from '../components/AIRecommendations';
+import { AchievementNotification } from '../components/AchievementNotification';
 import { AIService } from './ai-service';
+import { AnalyticsService } from '@/services/analytics-service';
 
 type TabType = 'coupons' | 'chat';
 
 const aiService = AIService.getInstance();
+const analyticsService = AnalyticsService.getInstance();
 
 interface PageData {
   url: string;
@@ -25,6 +30,9 @@ export function SidebarApp() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [modelStatus, setModelStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [recommendations, setRecommendations] = useState<AIRecommendation[]>([]);
+  const [recentAchievement, setRecentAchievement] = useState<Achievement | null>(null);
 
   useEffect(() => {
     // Initialize AI
@@ -59,16 +67,20 @@ export function SidebarApp() {
         const data = event.data.payload;
         // Rank coupons locally if we have a cart total
         if (data.cartTotal && data.coupons.length > 0) {
-          aiService.rankCoupons(data.coupons, data.cartTotal)
-            .then(rankedCoupons => {
+          Promise.all([
+            aiService.rankCoupons(data.coupons, data.cartTotal),
+            aiService.generateSmartRecommendations(data.coupons, data.cartTotal)
+          ])
+            .then(([rankedCoupons, aiRecommendations]) => {
               setPageData({
                 ...data,
                 coupons: rankedCoupons,
                 modelStatus: modelStatus,
               });
+              setRecommendations(aiRecommendations);
             })
             .catch(error => {
-              console.error('Failed to rank coupons:', error);
+              console.error('Failed to process coupons:', error);
               setPageData({
                 ...data,
                 modelStatus: modelStatus,
@@ -92,6 +104,22 @@ export function SidebarApp() {
       case 'COUPON_APPLIED':
         if (event.data.payload.success) {
           showNotification('Coupon applied successfully!', 'success');
+          // Track savings and check for achievements
+          if (pageData?.cartTotal) {
+            const appliedCoupon = pageData.coupons.find(c => c.code === event.data.payload.code);
+            if (appliedCoupon) {
+              const savings = appliedCoupon.discount_type === 'percentage'
+                ? (pageData.cartTotal * appliedCoupon.discount_value) / 100
+                : appliedCoupon.discount_value;
+              
+              analyticsService.recordSaving(savings, window.location.hostname, appliedCoupon.code)
+                .then(achievements => {
+                  if (achievements.length > 0) {
+                    setRecentAchievement(achievements[0]);
+                  }
+                });
+            }
+          }
         } else {
           showNotification(`Failed: ${event.data.payload.error}`, 'error');
         }
@@ -175,6 +203,17 @@ export function SidebarApp() {
           </div>
           <ModelStatus status={modelStatus} light />
         </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowDashboard(true)}
+            className="p-2 hover:bg-sc-gray-800 rounded transition-colors"
+            title="View Dashboard"
+          >
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </button>
+        </div>
         <button
           onClick={handleClose}
           className="p-1 hover:bg-sc-gray-800 rounded transition-colors"
@@ -221,6 +260,12 @@ export function SidebarApp() {
                 </div>
               </div>
             )}
+            {recommendations.length > 0 && (
+              <AIRecommendations 
+                recommendations={recommendations}
+                onApplyCoupon={handleApplyCoupon}
+              />
+            )}
             <div className="flex-1 overflow-auto">
               {pageData?.coupons.length === 0 ? (
                 <div className="p-8 text-center text-white/70">
@@ -248,6 +293,19 @@ export function SidebarApp() {
       <footer className="px-4 py-2 bg-sc-dark border-t border-sc-gray-800 text-xs text-white/50 text-center rounded-b-2xl">
         Privacy-first AI • All processing happens locally
       </footer>
+      
+      {/* Dashboard Modal */}
+      {showDashboard && (
+        <Dashboard onClose={() => setShowDashboard(false)} />
+      )}
+      
+      {/* Achievement Notification */}
+      {recentAchievement && (
+        <AchievementNotification 
+          achievement={recentAchievement}
+          onClose={() => setRecentAchievement(null)}
+        />
+      )}
     </div>
   );
 }

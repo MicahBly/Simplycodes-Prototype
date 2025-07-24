@@ -84,3 +84,38 @@ export interface SupportedSite {
     cartTotal?: string;
   };
 }
+
+// Analytics types
+export interface UserStats {
+  totalSaved: number;
+  couponsApplied: number;
+  successfulApplications: number;
+  personalBest: {
+    amount: number;
+    merchantName: string;
+    date: number;
+  };
+  currentStreak: number;
+  longestStreak: number;
+  lastSaveDate: number;
+}
+
+// Achievement types
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  unlockedAt?: number;
+  progress?: number;
+  target?: number;
+}
+
+// AI Recommendation types
+export interface AIRecommendation {
+  type: 'threshold' | 'stacking' | 'expiry' | 'alternative';
+  message: string;
+  relatedCoupons: string[];
+  potentialSavings?: number;
+  urgency?: 'low' | 'medium' | 'high';
+}

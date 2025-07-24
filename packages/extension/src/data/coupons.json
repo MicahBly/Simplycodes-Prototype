@@ -98,6 +98,18 @@
     "last_verified_ts": 1708790400000
   },
   {
+    "id": "coup_flash_001",
+    "code": "FLASH30",
+    "merchant_id": "amazon",
+    "discount_type": "percentage",
+    "discount_value": 30,
+    "description": "Flash Sale - 30% off! Expires soon!",
+    "success_rate": 0.95,
+    "last_verified_ts": 1708963200000,
+    "expires_at": 1753346274994,
+    "categories": ["all"]
+  },
+  {
     "id": "coup_010",
     "code": "TOOLS20",
     "merchant_id": "homedepot",

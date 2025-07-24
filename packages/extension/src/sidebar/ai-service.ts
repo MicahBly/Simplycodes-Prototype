@@ -1,4 +1,4 @@
-import { ChatMessage, Coupon, RankedCoupon } from '@/types';
+import { ChatMessage, Coupon, RankedCoupon, AIRecommendation } from '@/types';
 
 // Simple tokenizer for text processing
 class SimpleTokenizer {
@@ -448,5 +448,108 @@ export class AIService {
       isLoading: this.isLoading,
       isReady: this.isReady
     };
+  }
+  
+  async generateSmartRecommendations(
+    coupons: Coupon[],
+    cartTotal: number
+  ): Promise<AIRecommendation[]> {
+    const recommendations: AIRecommendation[] = [];
+    
+    // Threshold recommendations
+    const freeShippingCoupons = coupons.filter(c => 
+      c.discount_type === 'free_shipping' && c.minimum_purchase
+    );
+    
+    for (const coupon of freeShippingCoupons) {
+      if (coupon.minimum_purchase && cartTotal < coupon.minimum_purchase) {
+        const difference = coupon.minimum_purchase - cartTotal;
+        if (difference <= 20) {
+          recommendations.push({
+            type: 'threshold',
+            message: `Add $${difference.toFixed(2)} more to qualify for free shipping with ${coupon.code}!`,
+            relatedCoupons: [coupon.code],
+            potentialSavings: 10, // Assumed shipping cost
+            urgency: difference <= 10 ? 'high' : 'medium',
+          });
+        }
+      }
+    }
+    
+    // Better deal recommendations
+    const percentageCoupons = coupons.filter(c => 
+      c.discount_type === 'percentage' && c.minimum_purchase
+    );
+    
+    for (const coupon of percentageCoupons) {
+      if (coupon.minimum_purchase && cartTotal < coupon.minimum_purchase) {
+        const difference = coupon.minimum_purchase - cartTotal;
+        const potentialSavings = (coupon.minimum_purchase * coupon.discount_value) / 100;
+        
+        if (difference <= 50 && potentialSavings > 20) {
+          recommendations.push({
+            type: 'threshold',
+            message: `Spend $${difference.toFixed(2)} more to save ${coupon.discount_value}% (${potentialSavings.toFixed(2)}) with ${coupon.code}`,
+            relatedCoupons: [coupon.code],
+            potentialSavings,
+            urgency: potentialSavings > 30 ? 'high' : 'medium',
+          });
+        }
+      }
+    }
+    
+    // Expiry warnings
+    const now = Date.now();
+    const expiringCoupons = coupons.filter(c => c.expires_at);
+    
+    for (const coupon of expiringCoupons) {
+      if (coupon.expires_at) {
+        const hoursUntilExpiry = (coupon.expires_at - now) / (1000 * 60 * 60);
+        
+        if (hoursUntilExpiry <= 24 && hoursUntilExpiry > 0) {
+          const savings = coupon.discount_type === 'percentage' 
+            ? (cartTotal * coupon.discount_value) / 100
+            : coupon.discount_value;
+            
+          recommendations.push({
+            type: 'expiry',
+            message: hoursUntilExpiry <= 2 
+              ? `⏰ ${coupon.code} expires in ${Math.floor(hoursUntilExpiry)} hours! Save $${savings.toFixed(2)} now!`
+              : `${coupon.code} expires tonight - don't miss out on ${coupon.discount_value}${coupon.discount_type === 'percentage' ? '%' : '$'} off!`,
+            relatedCoupons: [coupon.code],
+            potentialSavings: savings,
+            urgency: hoursUntilExpiry <= 2 ? 'high' : 'medium',
+          });
+        }
+      }
+    }
+    
+    // Stacking detection (simulated)
+    const stackablePairs = [
+      ['SAVE20', 'FREESHIP'],
+      ['STUDENT15', 'FREESHIP50'],
+    ];
+    
+    for (const [code1, code2] of stackablePairs) {
+      const coupon1 = coupons.find(c => c.code === code1);
+      const coupon2 = coupons.find(c => c.code === code2);
+      
+      if (coupon1 && coupon2) {
+        recommendations.push({
+          type: 'stacking',
+          message: `💡 Pro tip: ${code1} and ${code2} can be combined for maximum savings!`,
+          relatedCoupons: [code1, code2],
+          urgency: 'low',
+        });
+      }
+    }
+    
+    // Sort by urgency and potential savings
+    return recommendations.sort((a, b) => {
+      const urgencyOrder = { high: 3, medium: 2, low: 1 };
+      const urgencyDiff = (urgencyOrder[b.urgency || 'low'] - urgencyOrder[a.urgency || 'low']);
+      if (urgencyDiff !== 0) return urgencyDiff;
+      return (b.potentialSavings || 0) - (a.potentialSavings || 0);
+    });
   }
 }
