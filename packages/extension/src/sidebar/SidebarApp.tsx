@@ -43,6 +43,13 @@ export function SidebarApp() {
     
     return () => window.removeEventListener('message', handleMessage);
   }, []);
+  
+  useEffect(() => {
+    // Store page data globally for AI context
+    if (pageData) {
+      (window as any).__SIMPLYCODES_PAGE_DATA = pageData;
+    }
+  }, [pageData]);
 
   const handleMessage = (event: MessageEvent) => {
     if (event.source !== window.parent) return;

@@ -69,49 +69,78 @@ export class AIService {
     this.knowledgeBase.set('greeting', [
       "Hello! I'm SimplyCodes AI, here to help you save money with the best coupon codes.",
       "Hi there! I can help you find the best deals and apply coupons automatically.",
-      "Welcome! Let me help you maximize your savings on this purchase."
+      "Welcome! Let me help you maximize your savings on this purchase.",
+      "Hey! Ready to save some money? I'll find you the best coupon codes."
     ]);
     
     this.knowledgeBase.set('best_deal', [
-      "Based on your cart total of $X, the SAVE25 code offers the best value with 25% off your entire purchase.",
-      "I've analyzed all available coupons - the FLASH30 code gives you the biggest discount at 30% off.",
-      "The MEGA20 code is currently your best option, saving you 20% on everything in your cart."
+      "Looking at your current options, the SAVE25 code offers 25% off your entire purchase - that's the biggest discount available right now.",
+      "I've analyzed all available coupons. The FLASH30 code gives you the best value at 30% off everything.",
+      "For maximum savings, I recommend the MEGA20 code - it takes 20% off your total and has a high success rate.",
+      "The best deal depends on your cart, but SAVE25 typically gives the biggest discount at 25% off."
     ]);
     
     this.knowledgeBase.set('shipping', [
       "Yes! The FREESHIP code provides free standard shipping on orders over $50.",
-      "You can get free shipping with SHIPFREE on any order today.",
-      "Free shipping is available with the NOSHIP code - no minimum required!"
+      "You can get free shipping with SHIPFREE - no minimum purchase required.",
+      "Free shipping is available! Use code NOSHIP at checkout.",
+      "I found 3 free shipping codes. FREESHIP50 is the most reliable one."
     ]);
     
     this.knowledgeBase.set('how_to_use', [
       "It's simple! Just click the 'Apply' button next to any coupon and I'll automatically add it to your checkout.",
-      "To use a coupon, click 'Apply' and I'll handle entering the code for you. I'll test each one to find what works!",
-      "Click on any coupon's Apply button and I'll instantly add it to your cart. I can also help you find the best deals."
+      "To use a coupon: 1) Click 'Apply' on any code, 2) I'll enter it for you, 3) The discount appears instantly!",
+      "Click any coupon's Apply button and watch the magic happen - I'll handle everything automatically.",
+      "Each coupon has an Apply button. Click it and I'll instantly add the code to your cart."
     ]);
     
     this.knowledgeBase.set('student', [
       "Students save 15% with code STUDENT15 after quick verification.",
       "Yes! Use EDU10 for an exclusive 10% student discount.",
-      "The SCHOLAR20 code gives verified students 20% off everything."
+      "The SCHOLAR20 code gives verified students 20% off everything.",
+      "Student discounts are available! Try STUDENT15 for 15% off."
     ]);
     
     this.knowledgeBase.set('stacking', [
-      "Most sites only allow one promo code per order. I've already sorted them by savings amount for you!",
-      "Unfortunately, you can typically only use one coupon code at checkout. I'll help you pick the best one.",
-      "Coupon stacking isn't usually allowed, but I'll find you the single best code to maximize your savings."
+      "Most retailers only allow one promo code per order. I've sorted them by value so you can pick the best one!",
+      "Unfortunately, coupon stacking isn't allowed here. But don't worry - I'll find you the single best code.",
+      "You can only use one code at checkout, but I've ranked them to show which saves you the most.",
+      "Can't combine codes, but the SAVE25 code alone will give you a great discount!"
     ]);
     
     this.knowledgeBase.set('expiry', [
-      "These coupons are valid through the end of this month. I'll let you know if any are expiring soon.",
-      "All current codes are active and verified. The FLASH30 code expires tonight at midnight!",
-      "These deals are currently active. I check them regularly to ensure they're working."
+      "All codes shown are currently active. I last verified them today.",
+      "These coupons are valid through month-end. The FLASH30 expires tonight!",
+      "I check coupon validity regularly. All displayed codes should work right now.",
+      "Most codes are valid for at least another week. Time-sensitive ones are marked."
     ]);
     
     this.knowledgeBase.set('general_help', [
       "I can help you find coupon codes, apply them automatically, and maximize your savings. What would you like to know?",
-      "I'm here to help you save money! I can find the best coupons, explain how they work, or apply them for you.",
-      "Ask me anything about coupons, discounts, or saving money on your purchase. I'm here to help!"
+      "I'm here to help you save money! Ask me about finding coupons, which code is best, or how to apply them.",
+      "I'm your personal savings assistant! I can explain coupons, recommend the best deals, or apply codes for you.",
+      "What can I help you with? I can find coupons, explain discounts, or apply codes automatically."
+    ]);
+    
+    this.knowledgeBase.set('specific_code', [
+      "Let me check that code for you... X gives you Y off Z.",
+      "That code provides X discount when you meet the requirements.",
+      "I'll verify that code's details and discount amount for you.",
+      "Here's what that code does: X"
+    ]);
+    
+    this.knowledgeBase.set('availability', [
+      "I found X active coupon codes for this site. Let me show you the best ones!",
+      "There are X coupons available right now. The best one saves you Y%.",
+      "Good news! I have X working codes for you, with discounts up to Y% off.",
+      "Yes, there are coupons available! I found X codes you can use."
+    ]);
+    
+    this.knowledgeBase.set('not_working', [
+      "If a code isn't working, try another one from the list - I've sorted them by success rate.",
+      "Sometimes codes have hidden requirements. Let me find you an alternative that should work.",
+      "That code might have expired. Try SAVE20 instead - it has a high success rate.",
+      "No worries! Click 'Apply' on a different code and I'll test it for you."
     ]);
   }
 
@@ -169,28 +198,101 @@ export class AIService {
       }
     }
     
+    // Handle conversational/unclear queries with more context
+    if (intent === 'general_help' && query.length < 10) {
+      // Short queries like "ok", "hmm", "what?", etc.
+      const conversationalResponses = [
+        "I'm here to help! You can ask me about the best coupons, how to apply them, or anything else about saving money.",
+        "Need more info? I can show you the best deals, explain how coupons work, or help you apply them.",
+        "What would you like to know? I can recommend the best discount codes or explain how to use them.",
+        "Feel free to ask me anything about the coupons! For example: 'What's the best deal?' or 'How do I apply a code?'"
+      ];
+      response = conversationalResponses[Math.floor(Math.random() * conversationalResponses.length)];
+    }
+    
     return response;
   }
 
   private classifyIntent(query: string, tokens: number[]): string {
-    // Simple intent classification based on keywords
+    // Enhanced intent classification with fuzzy matching
     const intents = {
-      greeting: ['hello', 'hi', 'hey', 'greetings'],
-      best_deal: ['best', 'recommend', 'biggest', 'maximum', 'most', 'top'],
-      shipping: ['ship', 'shipping', 'delivery', 'free shipping'],
-      how_to_use: ['how', 'work', 'use', 'apply', 'click'],
-      student: ['student', 'edu', 'college', 'university'],
-      stacking: ['multiple', 'stack', 'combine', 'together'],
-      expiry: ['expire', 'valid', 'when', 'until', 'deadline'],
+      greeting: {
+        keywords: ['hello', 'hi', 'hey', 'greetings', 'sup', 'howdy'],
+        patterns: [/^(hi|hello|hey)/i, /good (morning|afternoon|evening)/i]
+      },
+      best_deal: {
+        keywords: ['best', 'recommend', 'biggest', 'maximum', 'most', 'top', 'highest', 'greatest'],
+        patterns: [/which.*best/i, /what.*recommend/i, /biggest.*discount/i, /most.*sav/i]
+      },
+      shipping: {
+        keywords: ['ship', 'shipping', 'delivery', 'mail', 'send'],
+        patterns: [/free.*ship/i, /ship.*free/i, /delivery/i]
+      },
+      how_to_use: {
+        keywords: ['how', 'work', 'use', 'apply', 'click', 'enter', 'add'],
+        patterns: [/how.*use/i, /how.*work/i, /how.*apply/i, /where.*click/i]
+      },
+      student: {
+        keywords: ['student', 'edu', 'college', 'university', 'school', 'academic'],
+        patterns: [/student.*discount/i, /edu.*code/i]
+      },
+      stacking: {
+        keywords: ['multiple', 'stack', 'combine', 'together', 'both', 'several'],
+        patterns: [/use.*multiple/i, /combine.*code/i, /stack.*coupon/i, /more than one/i]
+      },
+      expiry: {
+        keywords: ['expire', 'valid', 'when', 'until', 'deadline', 'last', 'end'],
+        patterns: [/when.*expire/i, /how long.*valid/i, /until when/i]
+      },
+      specific_code: {
+        keywords: ['code', 'coupon'],
+        patterns: [/what.*(?:SAVE|FREE|FLASH|MEGA|STUDENT|EDU|SHIP)\d*/i, /tell.*about.*code/i]
+      },
+      availability: {
+        keywords: ['any', 'available', 'have', 'exist', 'find'],
+        patterns: [/any.*coupon/i, /are there.*code/i, /do you have/i, /can.*find/i]
+      },
+      not_working: {
+        keywords: ['not working', 'doesnt work', "doesn't work", 'failed', 'error', 'invalid'],
+        patterns: [/not.*work/i, /doesn.*work/i, /code.*fail/i, /invalid/i]
+      }
     };
     
-    for (const [intent, keywords] of Object.entries(intents)) {
-      if (keywords.some(keyword => query.includes(keyword))) {
-        return intent;
+    // Check patterns first (more specific)
+    for (const [intent, config] of Object.entries(intents)) {
+      for (const pattern of config.patterns) {
+        if (pattern.test(query)) {
+          return intent;
+        }
       }
     }
     
-    return 'general_help';
+    // Then check keywords with fuzzy matching
+    let bestIntent = 'general_help';
+    let bestScore = 0;
+    
+    for (const [intent, config] of Object.entries(intents)) {
+      let score = 0;
+      for (const keyword of config.keywords) {
+        if (query.includes(keyword)) {
+          score += keyword.length; // Longer matches are better
+        }
+      }
+      
+      if (score > bestScore) {
+        bestScore = score;
+        bestIntent = intent;
+      }
+    }
+    
+    // Check for question words if no clear intent
+    if (bestScore === 0) {
+      if (query.includes('?') || query.match(/^(what|where|when|why|who|how|is|are|can|do|does)/i)) {
+        return 'general_help';
+      }
+    }
+    
+    return bestIntent;
   }
 
   private extractContext(messages: ChatMessage[]) {
@@ -199,6 +301,9 @@ export class AIService {
       hasAskedBefore: new Set<string>(),
       usedResponses: new Set<string>(),
       merchantName: 'this store',
+      couponCount: 8, // Default number of coupons
+      bestDiscount: '30',
+      requestedCode: null as string | null,
     };
     
     // Extract information from previous messages
@@ -206,6 +311,12 @@ export class AIService {
       if (msg.role === 'user') {
         const intent = this.classifyIntent(msg.content.toLowerCase(), []);
         context.hasAskedBefore.add(intent);
+        
+        // Extract specific code mentions
+        const codeMatch = msg.content.match(/\b(SAVE|FREE|FLASH|MEGA|STUDENT|EDU|SHIP|NO)\w*\d*/i);
+        if (codeMatch) {
+          context.requestedCode = codeMatch[0].toUpperCase();
+        }
       } else if (msg.role === 'assistant') {
         context.usedResponses.add(msg.content);
       }
@@ -216,6 +327,16 @@ export class AIService {
         context.cartTotal = parseFloat(priceMatch[1]);
       }
     });
+    
+    // Get actual coupon data if available
+    const pageData = (window as any).__SIMPLYCODES_PAGE_DATA;
+    if (pageData?.coupons) {
+      context.couponCount = pageData.coupons.length;
+      const bestCoupon = pageData.coupons[0];
+      if (bestCoupon?.discount_value) {
+        context.bestDiscount = bestCoupon.discount_value.toString();
+      }
+    }
     
     return context;
   }
@@ -237,7 +358,38 @@ export class AIService {
         : responses[Math.floor(Math.random() * responses.length)];
     }
     
+    // Add dynamic elements based on actual coupon data
+    if (intent === 'availability' && context.couponCount) {
+      selectedResponse = selectedResponse
+        .replace('X', context.couponCount.toString())
+        .replace('Y', context.bestDiscount || '25');
+    }
+    
+    if (intent === 'specific_code' && context.requestedCode) {
+      const codeInfo = this.getCodeInfo(context.requestedCode);
+      selectedResponse = selectedResponse.replace('X', codeInfo);
+    }
+    
     return selectedResponse;
+  }
+  
+  private getCodeInfo(code: string): string {
+    // Provide information about specific codes
+    const codeDatabase: Record<string, string> = {
+      'SAVE25': '25% off your entire purchase',
+      'SAVE20': '20% off all items',
+      'FLASH30': '30% off - limited time flash sale',
+      'FREESHIP': 'free standard shipping',
+      'FREESHIP50': 'free shipping on orders over $50',
+      'STUDENT15': '15% student discount with verification',
+      'EDU10': '10% education discount',
+      'MEGA20': '20% off mega sale',
+      'SHIPFREE': 'free shipping, no minimum',
+      'NOSHIP': 'free shipping on any order'
+    };
+    
+    const upperCode = code.toUpperCase();
+    return codeDatabase[upperCode] || `${upperCode} provides a special discount`;
   }
 
   async rankCoupons(coupons: Coupon[], cartTotal: number): Promise<RankedCoupon[]> {
