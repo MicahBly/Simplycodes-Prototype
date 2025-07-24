@@ -7,26 +7,30 @@
     @apply box-border;
   }
 
+  html {
+    @apply bg-sc-darker;
+  }
+
   body {
-    @apply text-gray-900 antialiased;
+    @apply bg-sc-darker text-white antialiased;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-medium
-           hover:bg-primary-700 active:bg-primary-800 transition-colors
+    @apply bg-sc-green text-sc-dark px-4 py-2 rounded-lg font-medium
+           hover:bg-emerald-600 active:bg-emerald-700 transition-colors
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium
-           hover:bg-gray-200 active:bg-gray-300 transition-colors
+    @apply bg-sc-card text-white px-4 py-2 rounded-lg font-medium
+           hover:bg-sc-gray-800 active:bg-gray-700 transition-colors
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .coupon-card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4
+    @apply bg-sc-card rounded-lg shadow-sm border border-sc-gray-700 p-4
            hover:shadow-md transition-shadow cursor-pointer;
   }
 
@@ -35,10 +39,52 @@
   }
 
   .chat-bubble-user {
-    @apply bg-primary-100 text-primary-900 ml-auto;
+    @apply bg-sc-green text-sc-dark ml-auto;
   }
 
   .chat-bubble-assistant {
-    @apply bg-gray-100 text-gray-900;
+    @apply bg-sc-card text-white;
+  }
+
+  /* Make all text white by default in dark theme */
+  .text-gray-600 {
+    @apply text-white/60;
+  }
+  
+  .text-gray-700 {
+    @apply text-white/70;
+  }
+  
+  .text-gray-800 {
+    @apply text-white/80;
+  }
+  
+  .text-gray-900 {
+    @apply text-white;
+  }
+  
+  /* Fix specific success rate colors */
+  .text-green-600 {
+    @apply text-green-400;
+  }
+  
+  .bg-green-50 {
+    @apply bg-green-900/20;
+  }
+  
+  .text-yellow-600 {
+    @apply text-yellow-400;
+  }
+  
+  .bg-yellow-50 {
+    @apply bg-yellow-900/20;
+  }
+  
+  .text-red-600 {
+    @apply text-red-400;
+  }
+  
+  .bg-red-50 {
+    @apply bg-red-900/20;
   }
 }

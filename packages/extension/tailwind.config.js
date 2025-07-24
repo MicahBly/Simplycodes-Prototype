@@ -29,6 +29,14 @@ export default {
           500: '#eab308',
           700: '#a16207',
         },
+        'sc-dark': '#1a1a1a',
+        'sc-darker': '#0f0f0f',
+        'sc-card': '#262626',
+        'sc-gray': {
+          700: '#404040',
+          800: '#1f1f1f',
+        },
+        'sc-green': '#10b981',
       },
       animation: {
         'slide-in': 'slideIn 0.3s ease-out',
