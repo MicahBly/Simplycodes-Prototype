@@ -1,0 +1,111 @@
+[
+  {
+    "id": "coup_001",
+    "code": "SAVE20",
+    "merchant_id": "amazon",
+    "discount_type": "percentage",
+    "discount_value": 20,
+    "description": "20% off your entire order",
+    "success_rate": 0.92,
+    "last_verified_ts": 1708876800000,
+    "minimum_purchase": 50,
+    "categories": ["electronics", "books"]
+  },
+  {
+    "id": "coup_002",
+    "code": "FREESHIP50",
+    "merchant_id": "amazon",
+    "discount_type": "free_shipping",
+    "discount_value": 0,
+    "description": "Free shipping on orders over $50",
+    "success_rate": 0.98,
+    "last_verified_ts": 1708963200000,
+    "minimum_purchase": 50
+  },
+  {
+    "id": "coup_003",
+    "code": "TECH15OFF",
+    "merchant_id": "bestbuy",
+    "discount_type": "percentage",
+    "discount_value": 15,
+    "description": "15% off tech accessories",
+    "success_rate": 0.87,
+    "last_verified_ts": 1708790400000,
+    "categories": ["electronics", "accessories"]
+  },
+  {
+    "id": "coup_004",
+    "code": "STUDENT10",
+    "merchant_id": "amazon",
+    "discount_type": "percentage",
+    "discount_value": 10,
+    "description": "10% student discount",
+    "success_rate": 0.75,
+    "last_verified_ts": 1708704000000
+  },
+  {
+    "id": "coup_005",
+    "code": "BOGO50",
+    "merchant_id": "target",
+    "discount_type": "bogo",
+    "discount_value": 50,
+    "description": "Buy one get one 50% off",
+    "success_rate": 0.89,
+    "last_verified_ts": 1708876800000,
+    "categories": ["clothing", "home"]
+  },
+  {
+    "id": "coup_006",
+    "code": "FLASH25",
+    "merchant_id": "walmart",
+    "discount_type": "percentage",
+    "discount_value": 25,
+    "description": "Flash sale - 25% off",
+    "success_rate": 0.65,
+    "last_verified_ts": 1708617600000,
+    "expires_at": 1709049600000
+  },
+  {
+    "id": "coup_007",
+    "code": "SAVE5FLAT",
+    "merchant_id": "ebay",
+    "discount_type": "fixed",
+    "discount_value": 5,
+    "description": "$5 off any purchase",
+    "success_rate": 0.94,
+    "last_verified_ts": 1708963200000,
+    "minimum_purchase": 25
+  },
+  {
+    "id": "coup_008",
+    "code": "NEWYEAR30",
+    "merchant_id": "target",
+    "discount_type": "percentage",
+    "discount_value": 30,
+    "description": "New Year special - 30% off",
+    "success_rate": 0.45,
+    "last_verified_ts": 1708531200000,
+    "expires_at": 1706745600000
+  },
+  {
+    "id": "coup_009",
+    "code": "MEMBER15",
+    "merchant_id": "bestbuy",
+    "discount_type": "percentage",
+    "discount_value": 15,
+    "description": "Members get 15% off",
+    "success_rate": 0.82,
+    "last_verified_ts": 1708790400000
+  },
+  {
+    "id": "coup_010",
+    "code": "TOOLS20",
+    "merchant_id": "homedepot",
+    "discount_type": "percentage",
+    "discount_value": 20,
+    "description": "20% off power tools",
+    "success_rate": 0.78,
+    "last_verified_ts": 1708704000000,
+    "categories": ["tools", "hardware"]
+  }
+]

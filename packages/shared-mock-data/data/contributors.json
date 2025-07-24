@@ -1,0 +1,177 @@
+[
+  {
+    "contributor_id": "contrib_001",
+    "reputation": 95,
+    "rank_badge": "platinum",
+    "total_verifications": 1250,
+    "success_rate": 0.94
+  },
+  {
+    "contributor_id": "contrib_002",
+    "reputation": 88,
+    "rank_badge": "gold",
+    "total_verifications": 780,
+    "success_rate": 0.89
+  },
+  {
+    "contributor_id": "contrib_003",
+    "reputation": 72,
+    "rank_badge": "silver",
+    "total_verifications": 450,
+    "success_rate": 0.85
+  },
+  {
+    "contributor_id": "contrib_004",
+    "reputation": 98,
+    "rank_badge": "platinum",
+    "total_verifications": 2100,
+    "success_rate": 0.96
+  },
+  {
+    "contributor_id": "contrib_005",
+    "reputation": 65,
+    "rank_badge": "silver",
+    "total_verifications": 320,
+    "success_rate": 0.82
+  },
+  {
+    "contributor_id": "contrib_006",
+    "reputation": 45,
+    "rank_badge": "bronze",
+    "total_verifications": 120,
+    "success_rate": 0.75
+  },
+  {
+    "contributor_id": "contrib_007",
+    "reputation": 82,
+    "rank_badge": "gold",
+    "total_verifications": 650,
+    "success_rate": 0.88
+  },
+  {
+    "contributor_id": "contrib_008",
+    "reputation": 91,
+    "rank_badge": "platinum",
+    "total_verifications": 1450,
+    "success_rate": 0.92
+  },
+  {
+    "contributor_id": "contrib_009",
+    "reputation": 58,
+    "rank_badge": "bronze",
+    "total_verifications": 210,
+    "success_rate": 0.78
+  },
+  {
+    "contributor_id": "contrib_010",
+    "reputation": 76,
+    "rank_badge": "silver",
+    "total_verifications": 520,
+    "success_rate": 0.86
+  },
+  {
+    "contributor_id": "contrib_011",
+    "reputation": 93,
+    "rank_badge": "platinum",
+    "total_verifications": 1780,
+    "success_rate": 0.95
+  },
+  {
+    "contributor_id": "contrib_012",
+    "reputation": 69,
+    "rank_badge": "silver",
+    "total_verifications": 380,
+    "success_rate": 0.83
+  },
+  {
+    "contributor_id": "contrib_013",
+    "reputation": 52,
+    "rank_badge": "bronze",
+    "total_verifications": 150,
+    "success_rate": 0.76
+  },
+  {
+    "contributor_id": "contrib_014",
+    "reputation": 87,
+    "rank_badge": "gold",
+    "total_verifications": 890,
+    "success_rate": 0.90
+  },
+  {
+    "contributor_id": "contrib_015",
+    "reputation": 79,
+    "rank_badge": "gold",
+    "total_verifications": 620,
+    "success_rate": 0.87
+  },
+  {
+    "contributor_id": "contrib_016",
+    "reputation": 96,
+    "rank_badge": "platinum",
+    "total_verifications": 2450,
+    "success_rate": 0.97
+  },
+  {
+    "contributor_id": "contrib_017",
+    "reputation": 61,
+    "rank_badge": "silver",
+    "total_verifications": 280,
+    "success_rate": 0.80
+  },
+  {
+    "contributor_id": "contrib_018",
+    "reputation": 73,
+    "rank_badge": "silver",
+    "total_verifications": 490,
+    "success_rate": 0.84
+  },
+  {
+    "contributor_id": "contrib_019",
+    "reputation": 84,
+    "rank_badge": "gold",
+    "total_verifications": 750,
+    "success_rate": 0.89
+  },
+  {
+    "contributor_id": "contrib_020",
+    "reputation": 41,
+    "rank_badge": "bronze",
+    "total_verifications": 95,
+    "success_rate": 0.72
+  },
+  {
+    "contributor_id": "contrib_021",
+    "reputation": 77,
+    "rank_badge": "silver",
+    "total_verifications": 560,
+    "success_rate": 0.86
+  },
+  {
+    "contributor_id": "contrib_022",
+    "reputation": 90,
+    "rank_badge": "platinum",
+    "total_verifications": 1320,
+    "success_rate": 0.93
+  },
+  {
+    "contributor_id": "contrib_023",
+    "reputation": 55,
+    "rank_badge": "bronze",
+    "total_verifications": 180,
+    "success_rate": 0.77
+  },
+  {
+    "contributor_id": "contrib_024",
+    "reputation": 81,
+    "rank_badge": "gold",
+    "total_verifications": 690,
+    "success_rate": 0.88
+  },
+  {
+    "contributor_id": "contrib_025",
+    "reputation": 99,
+    "rank_badge": "platinum",
+    "total_verifications": 3200,
+    "success_rate": 0.98
+  }
+]

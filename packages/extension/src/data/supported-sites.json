@@ -1,0 +1,74 @@
+[
+  {
+    "domain": "amazon.com",
+    "selectors": {
+      "priceElement": ".a-price-whole, .a-price-range",
+      "couponInput": "#spc-gcpromoinput",
+      "applyButton": "#gcApplyButtonId",
+      "cartTotal": ".sc-subtotal-amount-buybox"
+    }
+  },
+  {
+    "domain": "bestbuy.com",
+    "selectors": {
+      "priceElement": ".pricing-price__regular-price, .priceView-hero-price",
+      "couponInput": "#cartApp input[name='promoCode']",
+      "applyButton": ".promo-code__submit-btn",
+      "cartTotal": ".order-summary__price"
+    }
+  },
+  {
+    "domain": "target.com",
+    "selectors": {
+      "priceElement": "[data-test='product-price']",
+      "couponInput": "#promoCodeEntry",
+      "applyButton": "[data-test='apply-promo-code-button']",
+      "cartTotal": "[data-test='cart-summary-value']"
+    }
+  },
+  {
+    "domain": "walmart.com",
+    "selectors": {
+      "priceElement": ".price-main .price-characteristic",
+      "couponInput": "input[name='promoCode']",
+      "applyButton": "button[data-automation-id='promo-apply-button']",
+      "cartTotal": ".cart-total-value"
+    }
+  },
+  {
+    "domain": "ebay.com",
+    "selectors": {
+      "priceElement": ".x-price-primary, .vi-VR-cvipPrice",
+      "couponInput": "#redemptionCode",
+      "applyButton": "#redemptionSubmit",
+      "cartTotal": ".total-row .val"
+    }
+  },
+  {
+    "domain": "homedepot.com",
+    "selectors": {
+      "priceElement": ".price-format__main-price",
+      "couponInput": "#promoInput",
+      "applyButton": "#promoApplyButton",
+      "cartTotal": ".checkout__total-price"
+    }
+  },
+  {
+    "domain": "lowes.com",
+    "selectors": {
+      "priceElement": ".main-price",
+      "couponInput": "#promo-code-input",
+      "applyButton": "#promo-apply-btn",
+      "cartTotal": ".order-total-value"
+    }
+  },
+  {
+    "domain": "wayfair.com",
+    "selectors": {
+      "priceElement": ".SFPrice",
+      "couponInput": "#PromoCodeInput",
+      "applyButton": "#PromoApplyButton",
+      "cartTotal": ".CartSummary-total"
+    }
+  }
+]
