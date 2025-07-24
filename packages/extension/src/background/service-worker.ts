@@ -4,8 +4,8 @@ import { OnnxLLMInference, OnnxCouponRanker } from '@/ml/onnx-inference';
 import { MockDataService } from '@/services/mock-data-service';
 import { ExtensionMessage, ModelConfig, ChatMessage } from '@/types';
 
-// Use mock implementations for prototype
-const USE_MOCK_ML = true; // Service Workers can't use dynamic imports required by ONNX Runtime
+// Always use mock implementations - Service Workers can't use dynamic imports
+const USE_MOCK_ML = true;
 
 // Model configurations
 const MODELS: Record<string, ModelConfig> = {
@@ -72,15 +72,8 @@ class ServiceWorkerState {
 
         await Promise.all(loadPromises);
       } else {
-        // For ONNX, we'll simulate progress while loading from CDN
-        this.broadcastProgress('llm', { percentage: 10 });
-        
-        // Initialize ONNX models (they'll load from Hugging Face CDN)
-        if (this.llmInference instanceof OnnxLLMInference) {
-          await this.llmInference.loadModel('');
-        }
-        
-        this.broadcastProgress('llm', { percentage: 90 });
+        // This branch should never be reached since USE_MOCK_ML is always true
+        console.warn('ONNX implementation not available in service worker');
       }
 
       // Initialize inference engines

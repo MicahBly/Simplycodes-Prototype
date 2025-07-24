@@ -24,9 +24,11 @@ class ContentScript {
     this.createToggleButton();
 
     // Listen for messages from background
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      this.handleMessage(message);
-    });
+    if (chrome.runtime?.id) {
+      chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        this.handleMessage(message);
+      });
+    }
 
     // Check model status
     this.checkModelStatus();
@@ -336,6 +338,13 @@ class ContentScript {
   private sendToBackground(message: ExtensionMessage): Promise<any> {
     return new Promise((resolve) => {
       try {
+        // Check if extension context is still valid
+        if (!chrome.runtime?.id) {
+          console.warn('Extension context invalidated');
+          resolve({ success: false, error: 'Extension context invalidated' });
+          return;
+        }
+        
         chrome.runtime.sendMessage(message, (response) => {
           if (chrome.runtime.lastError) {
             console.error('Chrome runtime error:', chrome.runtime.lastError);

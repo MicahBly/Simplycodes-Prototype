@@ -114,6 +114,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['onnxruntime-web', 'fuse.js'],
+    include: ['fuse.js'],
   },
 });
