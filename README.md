@@ -10,6 +10,10 @@ A privacy-first browser extension that uses local AI to find and apply the best 
 - **Natural Language Chat**: Ask questions about products and deals in plain English
 - **One-Click Application**: Automatically apply the best coupon code at checkout
 - **Community-Verified**: Coupons backed by community trust scores
+- **AI Recommendations**: Get smart tips like "Add $10 more for free shipping!"
+- **Savings Dashboard**: Track total saved, streaks, and personal best savings
+- **Gamification**: Unlock achievements and compete on the global leaderboard
+- **Expiry Alerts**: Never miss time-sensitive flash sales
 
 ## 📋 Requirements
 
@@ -90,6 +94,15 @@ SimplyCodes is designed with privacy as the top priority:
 - ✅ Open source and auditable
 
 See [PRIVACY.md](docs/PRIVACY.md) for details.
+
+## 📸 Screenshots
+
+<div align="center">
+  <img src="extensionscreenshot1.png" alt="SimplyCodes Extension - Coupon List" width="400" />
+  <img src="extensionscreenshot2.png" alt="SimplyCodes Extension - AI Chat" width="400" />
+  <img src="extensionscreenshot3.png" alt="SimplyCodes Extension - Dashboard" width="400" />
+  <img src="extensionscreenshot4.png" alt="SimplyCodes Extension - Achievements" width="400" />
+</div>
 
 ## 📱 Usage
 
